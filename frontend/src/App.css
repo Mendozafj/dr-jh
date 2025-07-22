@@ -129,6 +129,7 @@ body {
   font-size: 1rem;
   font-family: 'Lato', 'Inter', Arial, sans-serif;
   background: #fff;
+  color: #111;
 }
 
 .crud-form textarea {
@@ -183,5 +184,22 @@ body {
   .phrases-row {
     flex-direction: column;
     gap: 1.2rem;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
   }
+  .phrase {
+    text-align: center;
+    width: auto;
+    max-width: 90vw;
+    margin: 0 auto;
+    display: block;
+  }
+}
+
+.testimonios-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
 }
