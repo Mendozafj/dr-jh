@@ -1,4 +1,5 @@
 import './App.css';
+import TestimoniosCRUD from './components/TestimoniosCRUD';
 
 function App() {
   return (
@@ -18,8 +19,7 @@ function App() {
       </section>
       <section className="testimonios-section">
         <h2>Testimonios</h2>
-        {/* Aquí irá el componente CRUD de testimonios */}
-        <div className="crud-placeholder">[CRUD de testimonios próximamente]</div>
+        <TestimoniosCRUD />
       </section>
       <footer className="footer">
         <p>&copy; {new Date().getFullYear()} Cátedra Dr. José Gregorio Hernández</p>
