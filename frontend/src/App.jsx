@@ -6,28 +6,26 @@ function App() {
   return (
     <div className="main-container">
       <header className="header">
-        <h1>Cátedra Dr. José Gregorio Hernández</h1>
-        <p className="subtitle">Inspirando valores y ciencia</p>
-      </header>
-      <section className="welcome-section">
-        <img src={drJGH} alt="Dr. José Gregorio Hernández" className="main-image" />
-        <div className="welcome-text">
-          <h2>Bienvenido a la Cátedra</h2>
-          <p>
-            Un espacio dedicado a la vida, obra y valores del Dr. José Gregorio Hernández. Aquí podrás conocer más sobre su legado y compartir tus testimonios.
-          </p>
-          <blockquote className="frase-jgh">
-            "La caridad es la ciencia más grande del mundo."
-            <span className="autor-frase">- Dr. José Gregorio Hernández</span>
-          </blockquote>
+        <div className="header-actions" style={{textAlign: 'right', marginRight: '2rem', fontSize: '1rem'}}>
+          <span style={{color: '#7B7B7B'}}>Deja tu testimonio</span>
         </div>
-      </section>
-      <section className="testimonios-section">
-        <h2>Testimonios</h2>
+        <h1 className="header-title">Cátedra Dr. José Gregorio Hernández</h1>
+        <p className="header-subtitle">
+          Un espacio de fe, ciencia y humanidad inspirado<br />
+          en el legado del Venerable Médico de los pobres.
+        </p>
+        <div className="phrases-row">
+          <span className="phrase">‘La caridad bien entendida comienza en el corazón.’</span>
+          <img src={drJGH} alt="Dr. José Gregorio Hernández" className="main-image" />
+          <span className="phrase">‘Dios y la ciencia pueden ir de la mano para curar no solo el cuerpo, sino también el alma.’</span>
+        </div>
+      </header>
+      <section className="form-section">
+        <h2 className="form-title">Tu Testimonio</h2>
         <TestimoniosCRUD />
       </section>
       <footer className="footer">
-        <p>&copy; {new Date().getFullYear()} Cátedra Dr. José Gregorio Hernández</p>
+        &copy; 2023 Cátedra Dr. José Gregorio Hernández, Todos los derechos reservados
       </footer>
     </div>
   );
