@@ -33,7 +33,7 @@ function App() {
         <TestimoniosCRUD />
       </section>
       <footer className="footer">
-        &copy; 2023 Cátedra Dr. José Gregorio Hernández, Todos los derechos reservados
+        &copy; 2025 Cátedra Dr. José Gregorio Hernández, Todos los derechos reservados
       </footer>
     </div>
   );
