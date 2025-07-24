@@ -1,6 +1,20 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function Navbar() {
+  const navigate = useNavigate();
+  const isLoggedIn = Boolean(localStorage.getItem('token'));
+
+  const handleAuthClick = () => {
+    if (isLoggedIn) {
+      // Logout: eliminar token y recargar
+      localStorage.removeItem('token');
+      window.location.reload();
+    } else {
+      navigate('/login');
+    }
+  };
+
   return (
     <nav className="navbar">
       <div className="navbar-left">
@@ -11,7 +25,9 @@ export default function Navbar() {
         <li><a href="#testimonios">Testimonios</a></li>
         <li><a href="#noticias">Noticias</a></li>
       </ul>
-      <button className="navbar-login" type="button">Iniciar Sesión</button>
+      <button className="navbar-login" type="button" onClick={handleAuthClick}>
+        {isLoggedIn ? 'Cerrar Sesión' : 'Iniciar Sesión'}
+      </button>
     </nav>
   );
 } 
