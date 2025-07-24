@@ -7,7 +7,6 @@ export default function Navbar() {
 
   const handleAuthClick = () => {
     if (isLoggedIn) {
-      // Logout: eliminar token y recargar
       localStorage.removeItem('token');
       window.location.reload();
     } else {
@@ -15,9 +14,17 @@ export default function Navbar() {
     }
   };
 
+  const handleRegisterClick = () => {
+    navigate('/register');
+  };
+
+  const handleLogoClick = () => {
+    navigate('/');
+  };
+
   return (
     <nav className="navbar">
-      <div className="navbar-left">
+      <div className="navbar-left" style={{ cursor: 'pointer' }} onClick={handleLogoClick}>
         <span className="navbar-logo" role="img" aria-label="logo">🩺</span>
         <span className="navbar-title">Cátedra Dr. JH</span>
       </div>
@@ -25,9 +32,16 @@ export default function Navbar() {
         <li><a href="#testimonios">Testimonios</a></li>
         <li><a href="#noticias">Noticias</a></li>
       </ul>
-      <button className="navbar-login" type="button" onClick={handleAuthClick}>
-        {isLoggedIn ? 'Cerrar Sesión' : 'Iniciar Sesión'}
-      </button>
+      <div style={{ display: 'flex', gap: '0.7rem' }}>
+        {!isLoggedIn && (
+          <button className="navbar-login" type="button" onClick={handleRegisterClick} style={{ background: '#fff', color: '#4A90E2', border: '1.5px solid #4A90E2' }}>
+            Registrarse
+          </button>
+        )}
+        <button className="navbar-login" type="button" onClick={handleAuthClick}>
+          {isLoggedIn ? 'Cerrar Sesión' : 'Iniciar Sesión'}
+        </button>
+      </div>
     </nav>
   );
 } 
