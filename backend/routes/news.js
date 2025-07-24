@@ -58,7 +58,9 @@ router.get('/', async (req, res) => {
 router.post('/', auth, async (req, res) => {
   const { title, description, image } = req.body;
   if (!title || !description || !image) return res.status(400).json({ error: 'Faltan datos' });
-  const noticia = new News({ title, description, image, author: req.user.email });
+  const user = await require('../models/User').findById(req.user.id);
+  if (!user || user.rol !== 'admin') return res.status(403).json({ error: 'Solo administradores pueden publicar noticias' });
+  const noticia = new News({ title, description, image, author: user.email });
   await noticia.save();
   res.json({ message: 'Noticia creada' });
 });
@@ -108,6 +110,8 @@ router.get('/:id', async (req, res) => {
 });
 
 router.delete('/:id', auth, async (req, res) => {
+  const user = await require('../models/User').findById(req.user.id);
+  if (!user || user.rol !== 'admin') return res.status(403).json({ error: 'Solo administradores pueden eliminar noticias' });
   const noticia = await News.findById(req.params.id);
   if (!noticia) return res.status(404).json({ error: 'Noticia no encontrada' });
   await noticia.deleteOne();

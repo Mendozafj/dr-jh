@@ -9,8 +9,13 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Conexión a MongoDB
-mongoose.connect(process.env.MONGO_URI, {
+// Configuración de la base de datos
+const dbName = 'drjh';
+let mongoUri = process.env.MONGO_URI;
+if (!mongoUri.endsWith('/')) mongoUri += '/';
+mongoUri += dbName;
+
+mongoose.connect(mongoUri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -33,7 +38,7 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok' });
 });
 
-// Importar rutas de usuarios y noticias
+// Importar rutas de usuarios, noticias y testimonios
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/news', require('./routes/news'));
 app.use('/api/testimonios', require('./routes/testimonios'));

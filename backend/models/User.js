@@ -6,6 +6,7 @@ const UserSchema = new mongoose.Schema({
   telefono: { type: String, required: true },
   fechaNacimiento: { type: Date, required: true },
   password: { type: String, required: true },
+  rol: { type: String, enum: ['user', 'admin'], default: 'user' },
 });
 
 module.exports = mongoose.model('User', UserSchema); 
