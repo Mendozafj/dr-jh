@@ -291,3 +291,72 @@ body {
     font-size: 1.1rem;
   }
 }
+
+.hero-section {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto 2.5rem auto;
+  padding: 2.5rem 0 2rem 0;
+  box-sizing: border-box;
+}
+
+.hero-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2.5rem;
+}
+
+.hero-text {
+  flex: 1 1 0;
+  max-width: 60%;
+}
+
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.7rem;
+  color: var(--color-blue);
+  font-weight: 700;
+  margin-bottom: 1.2rem;
+}
+
+.hero-phrase {
+  font-family: 'Lato', 'Inter', Arial, sans-serif;
+  font-size: 1.15rem;
+  color: var(--color-gray);
+  margin-bottom: 0.5rem;
+  margin-top: 0.5rem;
+  font-style: italic;
+}
+
+.hero-image-container {
+  flex: 1 1 0;
+  display: flex;
+  justify-content: center;
+}
+
+.hero-image {
+  width: 260px;
+  height: 320px;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+  background: #fff;
+  border: 2px solid var(--color-beige);
+}
+
+@media (max-width: 900px) {
+  .hero-content {
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: center;
+  }
+  .hero-text {
+    max-width: 100%;
+    text-align: center;
+  }
+  .hero-image {
+    width: 180px;
+    height: 220px;
+  }
+}
