@@ -36,6 +36,7 @@ app.get('/api/health', (req, res) => {
 // Importar rutas de usuarios y noticias
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/news', require('./routes/news'));
+app.use('/api/testimonios', require('./routes/testimonios'));
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
