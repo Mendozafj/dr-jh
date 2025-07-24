@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const newsList = [
   {
@@ -20,6 +21,7 @@ const newsList = [
 
 export default function NewsSection() {
   const [filter] = useState('Recientes');
+  const navigate = useNavigate();
 
   return (
     <section className="news-section" id="noticias">
@@ -31,7 +33,12 @@ export default function NewsSection() {
       </div>
       <div className="news-list">
         {newsList.map((news, idx) => (
-          <div className="news-card" key={idx}>
+          <div
+            className="news-card"
+            key={idx}
+            style={{ cursor: 'pointer' }}
+            onClick={() => navigate(`/noticia/${idx}`)}
+          >
             <img src={news.img} alt={news.title} className="news-img" />
             <div className="news-info">
               <div className="news-card-title">{news.title}</div>
