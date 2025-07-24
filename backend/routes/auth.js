@@ -26,12 +26,12 @@ const router = express.Router();
  *         description: Usuario registrado
  */
 router.post('/register', async (req, res) => {
-  const { email, password } = req.body;
-  if (!email || !password) return res.status(400).json({ error: 'Faltan datos' });
+  const { email, password, nombre, telefono, fechaNacimiento } = req.body;
+  if (!email || !password || !nombre || !telefono || !fechaNacimiento) return res.status(400).json({ error: 'Faltan datos' });
   const exists = await User.findOne({ email });
   if (exists) return res.status(400).json({ error: 'Usuario ya existe' });
   const hash = await bcrypt.hash(password, 10);
-  const user = new User({ email, password: hash });
+  const user = new User({ email, password: hash, nombre, telefono, fechaNacimiento });
   await user.save();
   res.json({ message: 'Usuario registrado' });
 });
