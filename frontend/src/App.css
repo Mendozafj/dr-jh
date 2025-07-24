@@ -360,3 +360,76 @@ body {
     height: 220px;
   }
 }
+
+.info-section {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto 2.5rem auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  box-sizing: border-box;
+}
+
+.info-row {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+}
+
+.info-row.reverse {
+  flex-direction: row-reverse;
+}
+
+.info-img-container {
+  flex: 1 1 0;
+  display: flex;
+  justify-content: center;
+}
+
+.info-img {
+  width: 220px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+  background: #fff;
+  border: 2px solid var(--color-beige);
+}
+
+.info-text {
+  flex: 2 1 0;
+  min-width: 0;
+}
+
+.info-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem;
+  color: #222;
+  font-weight: 700;
+  margin-bottom: 0.7rem;
+}
+
+.info-body {
+  font-family: 'Lato', 'Inter', Arial, sans-serif;
+  font-size: 1.05rem;
+  color: var(--color-gray);
+  line-height: 1.7;
+}
+
+@media (max-width: 900px) {
+  .info-row, .info-row.reverse {
+    flex-direction: column !important;
+    gap: 1.2rem;
+    align-items: center;
+    text-align: center;
+  }
+  .info-img {
+    width: 100%;
+    max-width: 320px;
+    height: 160px;
+  }
+  .info-text {
+    max-width: 100vw;
+  }
+}

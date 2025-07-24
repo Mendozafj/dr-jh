@@ -3,6 +3,7 @@ import TestimoniosCRUD from './components/TestimoniosCRUD';
 import drJGH from './assets/dr-jh.jpg';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
+import InfoSection from './components/InfoSection';
 
 function App() {
   const scrollToForm = (e) => {
@@ -17,6 +18,7 @@ function App() {
     <div className="main-container">
       <Navbar />
       <Hero />
+      <InfoSection />
       <header className="header">
         <div className="header-actions" style={{textAlign: 'right', marginRight: '2rem', fontSize: '1rem'}}>
           <a href="#formulario-testimonio" onClick={scrollToForm} style={{color: '#7B7B7B', textDecoration: 'underline', cursor: 'pointer'}}>Deja tu testimonio</a>
