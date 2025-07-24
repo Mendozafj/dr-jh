@@ -209,3 +209,85 @@ body {
   gap: 1.5rem;
   margin-top: 1.5rem;
 }
+
+.navbar {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto 2.5rem auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.2rem 2rem 1.2rem 1rem;
+  background: var(--color-ivory);
+  box-sizing: border-box;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.navbar-logo {
+  font-size: 1.7rem;
+}
+
+.navbar-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #222;
+}
+
+.navbar-links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar-links li a {
+  color: var(--color-gray);
+  text-decoration: none;
+  font-size: 1rem;
+  font-family: 'Lato', 'Inter', Arial, sans-serif;
+  transition: color 0.2s;
+}
+
+.navbar-links li a:hover {
+  color: var(--color-blue);
+}
+
+.navbar-login {
+  background: var(--color-blue);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 1.2rem;
+  font-size: 1rem;
+  font-family: 'Lato', 'Inter', Arial, sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.navbar-login:hover {
+  background: #3576b8;
+}
+
+@media (max-width: 700px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.7rem;
+    padding: 1rem 0.5rem 1rem 0.5rem;
+  }
+  .navbar-links {
+    gap: 1.2rem;
+  }
+  .navbar-title {
+    font-size: 1.1rem;
+  }
+}
