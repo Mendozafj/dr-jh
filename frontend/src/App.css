@@ -528,3 +528,119 @@ body {
     max-width: 340px;
   }
 }
+
+.testimonios-section {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto 2.5rem auto;
+  box-sizing: border-box;
+}
+
+.testimonios-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem;
+  color: #222;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
+.testimonios-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.5rem;
+}
+
+.testimonios-form-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  padding: 2rem 1.5rem;
+  width: 100%;
+  max-width: 480px;
+  margin-bottom: 2rem;
+}
+
+/* Ajustes para la lista de testimonios y avatares (si el CRUD los soporta) */
+.testimonios-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.testimonio-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.2rem;
+  background: #f7f3ec;
+  border-radius: 10px;
+  padding: 1.2rem 1rem;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.03);
+}
+
+.testimonio-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #e0e0e0;
+}
+
+.testimonio-info {
+  flex: 1 1 0;
+}
+
+.testimonio-nombre {
+  font-weight: 700;
+  color: #222;
+  font-size: 1.05rem;
+}
+
+.testimonio-fecha {
+  font-size: 0.95rem;
+  color: #7B7B7B;
+  margin-bottom: 0.2rem;
+}
+
+.testimonio-mensaje {
+  margin: 0.5rem 0 0.7rem 0;
+  color: #3a3a3a;
+  font-size: 1.05rem;
+}
+
+.testimonio-actions {
+  display: flex;
+  gap: 0.7rem;
+  margin-top: 0.3rem;
+}
+
+.testimonio-action-btn {
+  background: none;
+  border: none;
+  color: var(--color-blue);
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+  transition: background 0.15s;
+}
+
+.testimonio-action-btn:hover {
+  background: #eaf0fa;
+}
+
+@media (max-width: 900px) {
+  .testimonios-form-card {
+    padding: 1.2rem 0.5rem;
+    max-width: 100vw;
+  }
+  .testimonio-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.7rem;
+  }
+}
