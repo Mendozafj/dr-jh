@@ -80,6 +80,22 @@ router.post('/', auth, async (req, res) => {
  *         description: Noticia encontrada
  *       404:
  *         description: Noticia no encontrada
+ *   delete:
+ *     summary: Eliminar una noticia
+ *     tags: [News]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Noticia eliminada
+ *       404:
+ *         description: Noticia no encontrada
  */
 router.get('/:id', async (req, res) => {
   try {
@@ -89,6 +105,13 @@ router.get('/:id', async (req, res) => {
   } catch {
     res.status(404).json({ error: 'Noticia no encontrada' });
   }
+});
+
+router.delete('/:id', auth, async (req, res) => {
+  const noticia = await News.findById(req.params.id);
+  if (!noticia) return res.status(404).json({ error: 'Noticia no encontrada' });
+  await noticia.deleteOne();
+  res.json({ message: 'Noticia eliminada' });
 });
 
 module.exports = router; 
