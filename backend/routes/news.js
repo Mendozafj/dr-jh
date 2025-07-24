@@ -63,4 +63,32 @@ router.post('/', auth, async (req, res) => {
   res.json({ message: 'Noticia creada' });
 });
 
+/**
+ * @swagger
+ * /api/news/{id}:
+ *   get:
+ *     summary: Obtener una noticia por ID
+ *     tags: [News]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Noticia encontrada
+ *       404:
+ *         description: Noticia no encontrada
+ */
+router.get('/:id', async (req, res) => {
+  try {
+    const noticia = await News.findById(req.params.id);
+    if (!noticia) return res.status(404).json({ error: 'Noticia no encontrada' });
+    res.json(noticia);
+  } catch {
+    res.status(404).json({ error: 'Noticia no encontrada' });
+  }
+});
+
 module.exports = router; 

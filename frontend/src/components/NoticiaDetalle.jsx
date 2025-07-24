@@ -1,19 +1,48 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+
+const API_URL = 'http://localhost:4000/api/news';
 
 export default function NoticiaDetalle() {
+  const { id } = useParams();
+  const [noticia, setNoticia] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    setLoading(true);
+    setError('');
+    fetch(`${API_URL}/${id}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data && !data.error) {
+          setNoticia(data);
+        } else {
+          setError('Noticia no encontrada');
+        }
+      })
+      .catch(() => setError('Noticia no encontrada'))
+      .finally(() => setLoading(false));
+  }, [id]);
+
+  if (loading) {
+    return <div className="noticia-detalle-container"><div style={{fontSize:'1.2rem', color:'#7B7B7B'}}>Cargando...</div></div>;
+  }
+  if (error) {
+    return <div className="noticia-detalle-container"><div style={{fontSize:'1.2rem', color:'red'}}>{error}</div></div>;
+  }
+
   return (
     <div className="noticia-detalle-container">
       <img
         className="noticia-detalle-img"
-        src="https://media.elestimulo.com/uploads/2021/04/EE-JOSE-GREGORIO-EN-BLANCO-Y-NEGRO-DANIELH-21-2048x1365.jpg"
-        alt="Avances en la Investigación sobre Enfermedades Tropicales"
+        src={noticia.image}
+        alt={noticia.title}
       />
-      <h1 className="noticia-detalle-title">Avances en la Investigación sobre Enfermedades Tropicales</h1>
-      <p className="noticia-detalle-desc">
-        La Cátedra Dr. José Gregorio Hernandez ha publicado un nuevo estudio que detalla los avances en la investigación sobre enfermedades tropicales. El estudio destaca la importancia de la colaboración internacional y el uso de nuevas tecnologías para el desarrollo de tratamientos más efectivos. Los resultados muestran un progreso significativo en la comprensión de estas enfermedades y abren nuevas vías para la prevención y el tratamiento.
-      </p>
+      <h1 className="noticia-detalle-title">{noticia.title}</h1>
+      <p className="noticia-detalle-desc">{noticia.description}</p>
       <div className="noticia-detalle-meta">
-        Por Dra. Sofía Ramírez | 15 de Julio de 2025
+        Por {noticia.author || 'Anónimo'} | {noticia.date ? new Date(noticia.date).toLocaleDateString() : ''}
       </div>
     </div>
   );
