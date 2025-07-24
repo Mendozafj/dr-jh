@@ -1,98 +1,166 @@
 import React, { useState, useEffect } from 'react';
 
-const STORAGE_KEY = 'testimonios';
+const API_URL = 'http://localhost:4000/api/testimonios';
 
-function getInitialTestimonios() {
-  const data = localStorage.getItem(STORAGE_KEY);
-  return data ? JSON.parse(data) : [];
+function getUserIdFromToken() {
+  try {
+    const token = localStorage.getItem('token');
+    if (!token) return null;
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    return payload.id;
+  } catch {
+    return null;
+  }
 }
 
 export default function TestimoniosCRUD() {
-  const [testimonios, setTestimonios] = useState(getInitialTestimonios());
-  const [form, setForm] = useState({ nombre: '', mensaje: '', id: null });
+  const [testimonios, setTestimonios] = useState([]);
+  const [form, setForm] = useState({ mensaje: '', id: null });
   const [editando, setEditando] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+  const userId = getUserIdFromToken();
+  const isLoggedIn = Boolean(userId);
 
+  // Cargar testimonios
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(testimonios));
-  }, [testimonios]);
+    setLoading(true);
+    setError('');
+    fetch(API_URL)
+      .then(res => res.json())
+      .then(data => setTestimonios(Array.isArray(data) ? data : []))
+      .catch(() => setError('Error al cargar testimonios'))
+      .finally(() => setLoading(false));
+  }, []);
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = (e) => {
+  // Crear o editar testimonio
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!form.nombre.trim() || !form.mensaje.trim()) return;
-    if (editando) {
-      setTestimonios(testimonios.map(t => t.id === form.id ? { ...t, nombre: form.nombre, mensaje: form.mensaje } : t));
-      setEditando(false);
-    } else {
-      setTestimonios([
-        ...testimonios,
-        {
-          id: Date.now(),
-          nombre: form.nombre,
-          mensaje: form.mensaje,
-          fecha: new Date().toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })
+    setError('');
+    setSuccess('');
+    if (!form.mensaje.trim()) return;
+    const token = localStorage.getItem('token');
+    try {
+      let res, data;
+      if (editando) {
+        res = await fetch(`${API_URL}/${form.id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({ mensaje: form.mensaje })
+        });
+        data = await res.json();
+        if (res.ok) {
+          setTestimonios(testimonios.map(t => t._id === form.id ? { ...t, mensaje: form.mensaje } : t));
+          setEditando(false);
+          setForm({ mensaje: '', id: null });
+          setSuccess('Testimonio actualizado');
+        } else {
+          setError(data.error || 'Error al actualizar');
         }
-      ]);
+      } else {
+        res = await fetch(API_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({ mensaje: form.mensaje })
+        });
+        data = await res.json();
+        if (res.ok) {
+          // Recargar testimonios
+          const nuevos = await fetch(API_URL).then(r => r.json());
+          setTestimonios(Array.isArray(nuevos) ? nuevos : testimonios);
+          setForm({ mensaje: '', id: null });
+          setSuccess('Testimonio publicado');
+        } else {
+          setError(data.error || 'Error al publicar');
+        }
+      }
+    } catch {
+      setError('Error de conexión');
     }
-    setForm({ nombre: '', mensaje: '', id: null });
   };
 
+  // Editar
   const handleEdit = (testimonio) => {
-    setForm({ nombre: testimonio.nombre, mensaje: testimonio.mensaje, id: testimonio.id });
+    setForm({ mensaje: testimonio.mensaje, id: testimonio._id });
     setEditando(true);
+    setSuccess('');
+    setError('');
   };
 
-  const handleDelete = (id) => {
-    if (window.confirm('¿Seguro que deseas eliminar este testimonio?')) {
-      setTestimonios(testimonios.filter(t => t.id !== id));
+  // Eliminar
+  const handleDelete = async (id) => {
+    if (!window.confirm('¿Seguro que deseas eliminar este testimonio?')) return;
+    const token = localStorage.getItem('token');
+    try {
+      const res = await fetch(`${API_URL}/${id}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setTestimonios(testimonios.filter(t => t._id !== id));
+        setSuccess('Testimonio eliminado');
+      } else {
+        setError(data.error || 'Error al eliminar');
+      }
+    } catch {
+      setError('Error de conexión');
     }
   };
 
   return (
     <div className="testimonios-crud">
-      <form className="crud-form" onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="nombre"
-          placeholder="Tu nombre"
-          value={form.nombre}
-          onChange={handleChange}
-          maxLength={40}
-          required
-        />
-        <textarea
-          name="mensaje"
-          placeholder="Escribe tu testimonio..."
-          value={form.mensaje}
-          onChange={handleChange}
-          maxLength={250}
-          required
-        />
-        <button type="submit">{editando ? 'Actualizar' : 'Agregar'}</button>
-        {editando && (
-          <button type="button" className="cancel-btn" onClick={() => { setEditando(false); setForm({ nombre: '', mensaje: '', id: null }); }}>
-            Cancelar
-          </button>
-        )}
-      </form>
+      {isLoggedIn && (
+        <form className="crud-form" onSubmit={handleSubmit}>
+          <textarea
+            name="mensaje"
+            placeholder="Escribe tu testimonio..."
+            value={form.mensaje}
+            onChange={e => setForm({ ...form, mensaje: e.target.value })}
+            maxLength={250}
+            required
+          />
+          <button type="submit">{editando ? 'Actualizar' : 'Agregar'}</button>
+          {editando && (
+            <button type="button" className="cancel-btn" onClick={() => { setEditando(false); setForm({ mensaje: '', id: null }); }}>
+              Cancelar
+            </button>
+          )}
+        </form>
+      )}
+      {!isLoggedIn && (
+        <div style={{ color: '#7B7B7B', textAlign: 'center', marginBottom: '1.5rem' }}>
+          Debes iniciar sesión para publicar un testimonio.
+        </div>
+      )}
+      {error && <div style={{ color: 'red', marginBottom: '0.5rem', fontSize: '1rem' }}>{error}</div>}
+      {success && <div style={{ color: 'green', marginBottom: '0.5rem', fontSize: '1rem' }}>{success}</div>}
       <div className="testimonios-list">
-        {testimonios.length === 0 ? (
-          <p className="no-testimonios">Aún no hay testimonios. ¡Sé el primero en compartir!</p>
+        {loading ? (
+          <div style={{ color: '#7B7B7B', textAlign: 'center' }}>Cargando testimonios...</div>
+        ) : testimonios.length === 0 ? (
+          <div style={{ color: '#7B7B7B', textAlign: 'center' }}>No hay testimonios aún.</div>
         ) : (
           testimonios.map((t) => (
-            <div className="testimonio-card" key={t.id}>
+            <div className="testimonio-card" key={t._id}>
               <div className="testimonio-header">
-                <span className="testimonio-nombre">{t.nombre}</span>
-                <span className="testimonio-fecha">{t.fecha}</span>
+                <span className="testimonio-nombre">{t.autor?.nombre || 'Anónimo'}</span>
+                <span className="testimonio-fecha">{t.fecha ? new Date(t.fecha).toLocaleDateString() : ''}</span>
               </div>
               <p className="testimonio-mensaje">{t.mensaje}</p>
-              <div className="testimonio-actions">
-                <button onClick={() => handleEdit(t)} className="edit-btn">Editar</button>
-                <button onClick={() => handleDelete(t.id)} className="delete-btn">Eliminar</button>
-              </div>
+              {isLoggedIn && t.autor && t.autor._id === userId && (
+                <div className="testimonio-actions">
+                  <button onClick={() => handleEdit(t)} className="edit-btn">Editar</button>
+                  <button onClick={() => handleDelete(t._id)} className="delete-btn">Eliminar</button>
+                </div>
+              )}
             </div>
           ))
         )}
