@@ -6,6 +6,7 @@ import InfoSection from './components/InfoSection';
 import NewsSection from './components/NewsSection';
 import TestimoniosSection from './components/TestimoniosSection';
 import NoticiaDetalle from './components/NoticiaDetalle';
+import LoginPage from './components/LoginPage';
 
 function Landing() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/noticia/:id" element={<NoticiaDetalle />} />
+          <Route path="/login" element={<LoginPage />} />
         </Routes>
         <footer className="footer">
           &copy; 2025 Cátedra Dr. José Gregorio Hernández, Todos los derechos reservados
