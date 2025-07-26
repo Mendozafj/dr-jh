@@ -81,7 +81,6 @@ export default function NewsSection() {
               key={news._id || idx}
               style={{ cursor: 'pointer', position: 'relative' }}
               onClick={e => {
-                // Evitar navegar si se hace click en el botón de eliminar
                 if (e.target.classList.contains('news-delete-btn')) return;
                 navigate(`/noticia/${news._id || idx}`);
               }}

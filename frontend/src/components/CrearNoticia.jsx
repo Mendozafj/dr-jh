@@ -32,7 +32,6 @@ export default function CrearNoticia() {
     setSuccess('');
     setLoading(true);
     try {
-      // Subir imagen a un servicio real sería ideal, pero aquí la convertimos a base64 para el ejemplo
       const toBase64 = file => new Promise((resolve, reject) => {
         const reader = new FileReader();
         reader.onload = () => resolve(reader.result);

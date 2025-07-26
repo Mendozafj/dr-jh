@@ -26,7 +26,6 @@ export default function LoginPage() {
       const data = await res.json();
       if (res.ok && data.token) {
         localStorage.setItem('token', data.token);
-        // Aquí podrías redirigir o mostrar éxito
         window.location.href = '/';
       } else {
         setError(data.error || 'Error al iniciar sesión');
