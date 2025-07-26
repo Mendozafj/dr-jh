@@ -50,7 +50,7 @@ npm install
 ### Ejecutar el Backend
 ```bash
 cd backend
-npm start
+node index.js
 ```
 El servidor estará disponible en: `http://localhost:4000`
 
